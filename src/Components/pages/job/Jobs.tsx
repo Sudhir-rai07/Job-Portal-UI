@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import NavbarComponent from "../../NavbarComponent";
 import { Button, Checkbox, Select } from "react-daisyui";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { useNavigate, useNavigation, useSearchParams } from "react-router-dom";
+import {  useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "../../../api/axios";
 import JobCard from "../../utils/JobCard";
@@ -25,13 +25,15 @@ const Jobs = () => {
   const [jobType, setJobType] = useState<string>("")
   const [jobRole, setJobRole] = useState<string>("")
   const [searchParams, setSearchParams] = useSearchParams()
-  const history = useNavigate()
+  // const history = useNavigate()
 
 
-  const {data:AllJobs, isError, error, isFetching} = useQuery<JobType[]>({queryKey: ["getAllJobs"], queryFn: async ()=>{
+  const {data:AllJobs} = useQuery<JobType[]>({queryKey: ["getAllJobs"], queryFn: async ()=>{
     const response = await apiClient.get("/api/job/get-all-jobs")
     return response.data
   }})
+
+  console.log(AllJobs)
 
 
 //   const {data: filterdJobs, isFetching:filteringJobs, isError:isFilterError, error:filterError, refetch:filterJobs} = useQuery({queryKey: ["filterJobs"], queryFn: async ()=>{
@@ -46,6 +48,7 @@ const Jobs = () => {
     e.preventDefault()
     console.log(jobType)
     setSearchParams({role: jobRole, type: jobRole, location: location})
+    console.log(searchParams)
     // filterJobs()
   }
 
@@ -127,9 +130,9 @@ const Jobs = () => {
         <div className="flex flex-col w-4/5 mx-auto">
         {AllJobs && AllJobs.map((job, idx): JSX.Element =>{
           return (
-            <JobCard key={idx} description={job.description} experience={job.experience} language={job.language} applications={job.applications} _id={job._id} requirements={job.requirements} location={job.location} company={job.company} employment_type
+            <JobCard key={idx} description={job.description} experience={job.experience}  _id={job._id}  location={job.location} company={job.company} employment_type
             ={job.employment_type
-            } role={job.role} datePosted={new Date(`${job.datePosted}`)} salary={job.salary}/>
+            } role={job.role} posted_date={new Date(`${job.posted_date}`)} salary={job.salary}/>
           )
         })}
         </div>

@@ -1,17 +1,18 @@
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
-import React from 'react'
 import toast from 'react-hot-toast'
 import { CiBellOn, CiUser } from 'react-icons/ci'
-import { MdAddCircleOutline, MdOutlineVerified } from 'react-icons/md'
+import { MdAddCircleOutline } from 'react-icons/md'
 import { PiUserCircleGear } from 'react-icons/pi'
 import { TbLogout2 } from 'react-icons/tb'
 import { Link } from 'react-router-dom'
 import apiClient from '../../api/axios'
+import Cookies from 'js-cookie';
 
 const ProfileLeftMenuBar = () => {
 
 
+  // LOGOUT MUTATION
     const { mutate: Logout } = useMutation({
         mutationFn: async () => {
           const response = await apiClient.post("/api/auth/logout");
@@ -27,6 +28,7 @@ const ProfileLeftMenuBar = () => {
         onSuccess: () => {
           toast.success("Logged out");
           window.localStorage.removeItem("token")
+          Cookies.remove("token")
           window.location.href = "/login"
         },
       });
@@ -54,17 +56,13 @@ const ProfileLeftMenuBar = () => {
 
     <div className="flex items-center gap-1 px-2 py-2 text-black rounded-md cursor-pointer">
       <CiBellOn size={25} />
-      <Link to={"/otifications"} className="hidden lg:inline-block">
+      <Link to={"/notifications"} className="hidden lg:inline-block">
         Notification
       </Link>
     </div>
 
-    <div className="flex items-center gap-1 px-2 py-2 text-black rounded-md cursor-pointer">
-      <MdOutlineVerified size={25} />
-      <span className="hidden lg:inline-block">Verification</span>
-    </div>
 
-    <Link to={"/post-a-job"} className="flex items-center gap-1 px-2 py-2 text-black rounded-md cursor-pointer">
+    <Link to={"/post-job"} className="flex items-center gap-1 px-2 py-2 text-black rounded-md cursor-pointer">
       <MdAddCircleOutline  size={25} />
       <span className="hidden lg:inline-block">Post a job</span>
     </Link>

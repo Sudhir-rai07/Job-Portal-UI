@@ -1,5 +1,5 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import React, { ReactElement, useRef } from "react";
+import {  useQuery } from "@tanstack/react-query";
+import { ReactElement } from "react";
 import {  FaGear } from "react-icons/fa6"
 import { User } from "../../../Types/types";
 import ProfileLeftMenuBar from "../../utils/ProfileLeftMenuBar";
@@ -7,12 +7,11 @@ import ProfileLeftMenuBar from "../../utils/ProfileLeftMenuBar";
 const Profile = () => {
   // User data
   const { data: currentUser } = useQuery<User>({ queryKey: ["getMe"] });
-  console.log(currentUser?.username);
 
   // Profile image refrance
-  const profileImageRef = useRef<HTMLInputElement>(null);
+  // const profileImageRef = useRef<HTMLInputElement>(null);
   // Form Submit ref
-  const submitRef = useRef<HTMLButtonElement>(null);
+  // const submitRef = useRef<HTMLButtonElement>(null);
 
 
   // React-daisy-UI modal refrance
@@ -32,6 +31,7 @@ const Profile = () => {
         </div>
 
         <div className="flex gap-4 mt-6 grid-rows-12 ">
+          
           {/* Leftnavbar action menu */}
         <ProfileLeftMenuBar />
 
@@ -39,17 +39,16 @@ const Profile = () => {
             {/* Profile image */}
             <div className="flex items-center gap-6">
               <img
-                src={"/profile-placeholder.png"}
-                alt=""
-                className="w-24 overflow-hidden border-2 border-blue-900 rounded-full lg:w-32 aspect-square"
+                src={currentUser?.profileImage || "/profile-placeholder.png"} alt="Profile_img"
+                className="object-cover w-24 overflow-hidden border-2 border-pink-900 rounded-full lg:w-32 aspect-square"
               />
             </div>
 
             <div className="mt-6">
-              {/* Form */}
               <div className="">
                 {/* Basic */}
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+
                   <div className="flex flex-col">
                     <label className="font-semibold" htmlFor="username">
                       Username
@@ -61,6 +60,7 @@ const Profile = () => {
                       {currentUser?.username}
                     </div>
                   </div>
+
                   <div className="flex flex-col">
                     <label className="font-semibold" htmlFor="fullname">
                       Fullname
@@ -72,6 +72,7 @@ const Profile = () => {
                       {currentUser?.fullname}
                     </div>
                   </div>
+
                   <div className="flex flex-col">
                     <label className="font-semibold" htmlFor="email">
                       Email
@@ -83,6 +84,7 @@ const Profile = () => {
                       {currentUser?.email}
                     </div>
                   </div>
+
                   <div className="flex items-center gap-3 bg-transparent">
                     <h2 className="font-semibold">Gender</h2>
                     <div className="flex items-center gap-2 px-2 py-2 bg-white border-2 rounded-md ">
@@ -149,7 +151,7 @@ const Profile = () => {
                         return (
                           <span
                             key={idx}
-                            className="flex items-center px-2 py-1 mx-2 bg-green-100 border-2 border-green-500 rounded-md cursor-pointer min-w-32"
+                            className="flex items-center px-2 py-1 mx-2 bg-green-100 rounded-md cursor-pointer min-w-32"
                           >
                             {skill}
                           </span>

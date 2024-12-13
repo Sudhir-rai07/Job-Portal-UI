@@ -1,49 +1,75 @@
 import { ReactElement } from "react";
 
 export type BoxProp = {
-    categoryName: string;
-    icon: ReactElement;
-  }
+  categoryName: string;
+  icon: ReactElement;
+};
 
 export type CategoryType = {
-    icon: ReactElement;
-    category: string;
-  }
+  icon: ReactElement;
+  category: string;
+};
 
-  export type JobType = {
-    _id: string;
-    applications: string[];
-    company: string;
-    location: string;
-    role: string;
-    requirements: string[];
-    employment_type
-: string;
-    description: string;
-    tags?: TagType;
-    salary: string;
-    experience:string;
-    language:string;
-    imgUrl?: string;
-    datePosted?: Date | undefined
-  }
+export type JobType = {
+  _id: string;
+  employer: string;
+  role: string;
+  company: string;
+  location: string;
+  employment_type: string;
+  description: string;
+  requirements: string[];
+  salary: string;
+  experience: string;
+  language: string;
+  isAccepting: string;
+  applications: string[];
+  posted_date: Date;
+  createdAt: Date;
+  updatedAt: Date;
+  __v?: number;
+};
 
-  type TagType = string[];
+export type JobCardType = {
+  _id: string;
+  company : string;
+  posted_date: Date;
+  role:string;
+  location: string;
+  description: string;
+  employment_type: string;
+  salary: string;
+  experience: string;
+};
 
- export type User = {
-    about?: string,
-    address?: string,
-    createdAt?: string,
-    education?: string,
-    email?: string,
-    fullname?: string,
-    gender?: string,
-    isVerifed?: boolean,
-    jobsApplied?: string[] | string,
-    profileImage?: string,
-    resume?: string,
-    skills?: string[],
-    updatedAt?: string,
-    username?: string,
-    _id?: string,
-  }
+export type User = {
+  _id: string;
+  username: string;
+  fullname: string;
+  email: string;
+  gender: string;
+  profileImage: string;
+  about: string;
+  role: string;
+  education: string;
+  resume: string;
+  skills: string[];
+  address: string;
+  jobsApplied: string[];
+  isVerifed: boolean;
+  updatedAt: string;
+  createdAt: string;
+};
+
+export type ApplicationType = {
+  _id: string;
+  applicant: string;
+  job: JobType;
+  coverLetter: string;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+  __v?: number;
+}
+
+export type RecordErrorType = Record<string, string | undefined>

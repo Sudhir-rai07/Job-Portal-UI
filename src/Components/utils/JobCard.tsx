@@ -1,66 +1,49 @@
-import React from "react";
-import { FaSave } from "react-icons/fa";
-import { JobType } from "../../Types/types";
+import { JobCardType } from "@/Types/types";
+import { Building2, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Button } from "../ui/button";
 
-const JobCard = ({
-  imgUrl,
-  salary,
-  company,
-  location,
-  employment_type,
-  role,
-  datePosted,
-  _id
-}: JobType) => {
-  function convertMongoDateToDate(mongoDate: Date) {
-    return mongoDate.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  }
+const JobCard: React.FC<JobCardType> = ({_id, company,role, location, description, employment_type,salary,experience }) => {
+
+
+
   return (
-   <div>
-     <div className="flex items-center w-full h-20 gap-4 px-2 mx-auto text-gray-500 border-b-2 border-gray-300">
-      <Link to={`/job/${_id}`} className="flex items-center w-1/2 gap-2">
-        <img
-          src={imgUrl || "/profile-placeholder.png"}
-          alt=""
-          className="w-10 h-10 overflow-hidden rounded-full"
-        />
-        <div>
-          <h2 className="text-lg font-semibold">{role}</h2>
-          <p className="text-sm font-semibold text-gray-700">
-            {company},{" "}
-            <span className="text-sm text-gray-500">
-              {datePosted && convertMongoDateToDate(datePosted)}
-            </span>
-          </p>
-        </div>
-      </Link>
+    <div className="max-w-[350px] shadow-black  px-4 py-2 w-full border-4 border-black shadow-[5px_5px_0px_0px_rgba(109,40,217)] rounded-md">
+      <h2 className="flex items-center gap-2 text-xl font-semibold"> <Building2 size={16}/> {company}</h2>
+      {/* <span className="text-sm text-gray-400">{convertMongoDateToDate(posted_date)}</span> */}
 
-      <div className="flex items-center justify-between w-1/2">
-        <div className="text-sm">
-          <p>
-            in <span className="font-semibold text-black">{location}</span>
-          </p>
-          <p>
-            {salary} <span className="font-sans">INR</span>
-          </p>
-        </div>
-        <div className="flex items-center px-2 py-2 text-sm font-semibold text-black bg-green-200 rounded-md">
-          <span className="inline-block w-3 h-3 mr-1 bg-green-500 rounded-full">
-            {" "}
-          </span>{" "}
+      <p className="flex items-center justify-between">
+        <span className="text-lg font-semibold">{role}</span>{" "}
+        <span className="flex items-center font-bold">
+          <MapPin size={16} color="green" /> {location}
+        </span>
+      </p>
+      <hr />
+      {/* job description */}
+      <p className="mt-2 text-gray-600 break-words">
+        {description}
+        ...
+      </p>
+
+      <p className="flex items-center mt-4 font-[300]">
+        Job Type:{" "}
+        <span className="ml-auto font-semibold">
           {employment_type}
-        </div>
-        <div className="cursor-pointer">
-          <FaSave size={20} color="green" />
-        </div>
-      </div>
+        </span>
+      </p>
+      <p className="flex items-center font-[300]">
+        Salary:{" "}
+        <span className="ml-auto font-semibold">
+          {salary}
+        </span>
+      </p>
+      <p className="flex items-center font-[300]">
+        Experience: <span className="ml-auto font-semibold">{experience}</span>
+      </p>
+      <Button className="flex mt-2 ml-auto text-white bg-pink-800 hover:bg-pink-800">
+        <Link to={`/job/${_id}`}>Apply now</Link>
+      </Button>
     </div>
-   </div>
   );
 };
 

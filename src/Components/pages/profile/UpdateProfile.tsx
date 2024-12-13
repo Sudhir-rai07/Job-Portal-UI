@@ -3,7 +3,7 @@ import React, { ReactElement, useCallback, useRef, useState } from "react";
 import apiClient from "../../../api/axios";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { Button, Modal, Radio, Select } from "react-daisyui";
+import { Button, Modal, Radio } from "react-daisyui";
 import skillsData from "../../../constants/skillsData";
 import { RxCross1 } from "react-icons/rx";
 import { User } from "../../../Types/types";
@@ -88,9 +88,8 @@ const UpdateProfile = () => {
             {/* Profile image */}
             <div className="flex items-center gap-6">
               <img
-                src={"profile-placeholder.png "}
-                alt=""
-                className="w-24 overflow-hidden border-2 border-blue-900 rounded-full lg:w-32 aspect-square"
+                src={currentUser?.profileImage || "/profile-placeholder.png"} alt="Profile_img"
+                className="object-cover w-24 overflow-hidden border-2 border-pink-900 rounded-full lg:w-32 aspect-square"
               />
               <input
                 type="file"
@@ -121,7 +120,7 @@ const UpdateProfile = () => {
               {/* Form */}
               <form className="" onSubmit={handleSubmit}>
                 {/* Basic */}
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <div className="flex flex-col">
                     <label className="font-semibold" htmlFor="username">
                       Username
@@ -131,7 +130,7 @@ const UpdateProfile = () => {
                       value={"usename"}
                       readOnly
                       id="username"
-                      className="inline px-2 py-3 text-gray-500 transition-colors bg-transparent border-2 rounded-md outline-none focus:border-blue-500 focus:bg-blue-100 border-gray-700/50"
+                      className="input-box"
                     />
                   </div>
                   <div className="flex flex-col">
@@ -143,7 +142,7 @@ const UpdateProfile = () => {
                       value={fullname}
                       onChange={(e) => setFullname(e.target.value)}
                       id="fullname"
-                      className="inline px-2 py-3 text-gray-500 transition-colors bg-transparent border-2 rounded-md outline-none focus:border-blue-500 focus:bg-blue-100 border-gray-700/50"
+                      className="input-box"
                     />
                   </div>
                   <div className="flex flex-col">
@@ -155,7 +154,7 @@ const UpdateProfile = () => {
                       value={"Email"}
                       id="email"
                       readOnly
-                      className="inline px-2 py-3 text-gray-500 transition-colors bg-transparent border-2 rounded-md outline-none focus:border-blue-500 focus:bg-blue-100 border-gray-700/50"
+                      className="input-box"
                     />
                   </div>
                   <div className="flex items-center gap-3 bg-transparent">
@@ -192,7 +191,7 @@ const UpdateProfile = () => {
                     value={address}
                     onChange={(e)=> setAddress(e.target.value)}
                     placeholder="Your address here"
-                    className="h-56 min-w-full px-2 py-2 bg-white border-2 rounded-md outline-none resize-none border-gray-700/50"
+                    className="h-56 min-w-full px-2 py-2 bg-white border-2 rounded-md outline-none resize-none border-pink-700/50"
                   ></textarea>
                 </div>
                 {/* About */}
@@ -204,7 +203,7 @@ const UpdateProfile = () => {
                     value={about}
                     onChange={(e) => setAbout(e.target.value)}
                     placeholder="Write about yourself"
-                    className="min-w-full px-2 py-2 bg-white border-2 rounded-md outline-none resize-none h-28 border-gray-700/50"
+                    className="min-w-full px-2 py-2 bg-white border-2 rounded-md outline-none resize-none h-28 border-pink-700/50"
                   ></textarea>
                 </div>
                 {/* Resume */}
@@ -221,7 +220,7 @@ const UpdateProfile = () => {
                     value={resume}
                     onChange={(e) => setResume(e.target.value)}
                     placeholder="ResumeLink"
-                    className="min-w-full px-2 py-2 bg-white border-2 rounded-md outline-none resize-none h-28 border-gray-700/50"
+                    className="min-w-full px-2 py-2 bg-white border-2 rounded-md outline-none resize-none h-28 border-pink-700/50"
                   ></textarea>
                 </div>
                 {/* Education */}
@@ -233,14 +232,14 @@ const UpdateProfile = () => {
                     value={education}
                     onChange={(e) => setEducation(e.target.value)}
                     placeholder="Education"
-                    className="min-w-full px-2 py-2 bg-white border-2 rounded-md outline-none resize-none h-28 border-gray-700/50"
+                    className="min-w-full px-2 py-2 bg-white border-2 rounded-md outline-none resize-none h-28 border-pink-700/50"
                   ></textarea>
                 </div>
                 <button type="submit" ref={submitRef}></button>
               </form>
 
               {/* Skill part */}
-              <div className="flex px-2 py-4 border-2 rounded-md justify-evenly border-gray-700/50">
+              <div className="flex px-2 py-4 border-2 rounded-md justify-evenly border-pink-700/50">
                 <div className="w-32 mr-auto">
                   <h2 className="font-semibold">Skills</h2>
                   <span className="text-sm text-gray-500">
@@ -250,7 +249,7 @@ const UpdateProfile = () => {
                 {/* React-daisy Modal */}
                 <div className="flex flex-col items-center ">
                   <div className="font-sans">
-                    <Button onClick={handleShow} type="button">
+                    <Button onClick={handleShow} type="button" className="text-white bg-pink-600 border-none">
                       Select Skills
                     </Button>
                     <Modal ref={ref} dataTheme="light">
@@ -263,7 +262,7 @@ const UpdateProfile = () => {
                             return (
                               <li
                                 key={idx}
-                                className={`flex justify-center min-h-14 my-auto items-center  border-2 border-gray-700/50 px-2 py-1 rounded-md  cursor-pointer ${skills.includes(skill) ? "bg-green-500" : ""
+                                className={`flex justify-center min-h-14 my-auto items-center  border-2 border-pink-700/50 px-2 py-1 rounded-md  cursor-pointer ${skills.includes(skill) ? "bg-green-500" : ""
                                   }`}
                                 onClick={() => handleSkills(skill)}
                               >
@@ -303,7 +302,7 @@ const UpdateProfile = () => {
 
               {/* Submit button */}
               <Button
-                  className="w-full px-8 mt-4 text-white bg-black border-none"
+                  className="w-full px-8 mt-4 text-white bg-pink-600 border-none"
                   type="submit"
                   onClick={()=>submitRef.current?.click()}
                 >

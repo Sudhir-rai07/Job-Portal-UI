@@ -1,10 +1,8 @@
-import React from 'react'
-
 const Notification = () => {
   return (
-    <div>
+    <section className='w-full h-full'>
       Notifications
-    </div>
+    </section>
   )
 }
 

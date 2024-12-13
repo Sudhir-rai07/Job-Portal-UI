@@ -1,42 +1,34 @@
-import { FaHome } from "react-icons/fa"
-import Box from "./utils/Box"
-import categoryData from "../constants/categoryData";
-import Card from "./utils/Card";
-import jobData from "../constants/JobDummyData";
+import { useQuery } from "@tanstack/react-query";
+import JobCard from "./utils/JobCard";
+import { JobType } from "@/Types/types";
+import { Link, useSearchParams } from "react-router-dom";
 
 const Jobs = () => {
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("filter");
+
+  const { data: allJobs, isRefetching } = useQuery<JobType[]>({
+    queryKey: ["AllJobs"],
+  });
+  console.log(allJobs);
   return (
-    <section className='w-full bg-[#F0F8FF]'>
-      <div className='flex flex-col items-center justify-center pt-4'>
-        <h2 className='text-2xl font-semibold text-center text-blue-900 lg:text-4xl'>Jobs of the today</h2>
-        <p className='mt-1'>Search and connect with the right candidate</p>
-      </div>
+    <section className="w-full mt-4">
+      {!query && (
+        <h1 className="my-4 mt-4 ml-2 text-xl font-semibold">latest Jobs:</h1>
+      )}
 
-      <div className="grid grid-cols-2 gap-3 p-4 mx-auto place-items-center lg:w-[90%] sm:grid-cols-3 lg:grid-cols-8 overflow-x-scroll">
-        {categoryData &&
-          categoryData.map((item, idx: number) => {
-            return (
-              <div className="" key={idx}>
-                <Box icon={item.icon} categoryName={item.name}/>
-              </div>
-            );
-          })}
-      </div>
-
-
-      <div className="grid w-4/5 grid-cols-1 mx-auto lg:gap-3 md:grid-cols-2 lg:grid-cols-3 place-items-center">
-        {jobData && jobData.map((job, idx)=>{
-          return (
-            <Card key={idx} company={job.company} location={job.location}
-            role={job.role} employment_type
-            ={job.employment_type
-            } description={job.description}
-            tags={job.tags} salary={job.salary} imgUrl={job.imgUrl}/>
-          )
-        })}
+      {query && (
+        <h1 className="my-4 mt-4 ml-2 text-xl font-semibold">
+          Results for : <span className="italic">{query}</span>
+        </h1>
+      )}
+      {isRefetching && <p className="italic font-semibold text-center">Getting jobs...</p>}
+      {!isRefetching && allJobs?.length == 0 && <p className="italic font-semibold text-center text-xl">Couldn't find anythnig... <br /> <Link className="text-blue-500" to={"/post-job"}>Post a job</Link></p>}
+      <div className="grid w-full grid-cols-1 gap-6 px-4 pb-6 overflow-y-scroll md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center">
+        {!isRefetching && allJobs && allJobs.map((job) => <JobCard key={job._id} {...job} />)}
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Jobs
+export default Jobs;

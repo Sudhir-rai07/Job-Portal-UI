@@ -1,20 +1,17 @@
+import { User } from "@/Types/types";
 import { useQuery } from "@tanstack/react-query";
-import { useCallback, useRef } from "react";
-import { Button, Dropdown, Navbar, Menu} from "react-daisyui";
+import { Bell, LayoutGrid, Plus } from "lucide-react";
+import { Button, Dropdown, Navbar, Menu } from "react-daisyui";
 import { FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const NavbarComponent = () => {
-  const { data: currentUser } = useQuery({ queryKey: ["getMe"] });
+  const { data: currentUser } = useQuery<User>({ queryKey: ["getMe"] });
 
-  const ref = useRef<HTMLDialogElement>(null);
-  const handleShow = useCallback(() => {
-    ref.current?.showModal();
-  }, [ref]);
   return (
-    <Navbar className="sticky top-0 flex items-center bg-transparent shadow-md lg:bg-transparent md:px-12">
+    <Navbar className="sticky top-0 flex items-center bg-transparent bg-white shadow-md md:px-12">
       <Navbar.Start>
-        <Dropdown>
+        <Dropdown dataTheme="light">
           <Button
             tag="label"
             color="ghost"
@@ -30,16 +27,24 @@ const NavbarComponent = () => {
                 <Link to={"/"}>Home</Link>
               </Button>
             </Dropdown.Item>
+
             <Dropdown.Item>
               <Button>
-                <Link to={"/find-job"} className="text-gray-400">Find A Job</Link>
+                <Link to={"/post-job"}>Post a Job</Link>
               </Button>
             </Dropdown.Item>
+
             <Dropdown.Item>
               <Button>
-                <Link to={"/rectuiter"}>Recruiters</Link>
+                <Link to={"/notifications"}>Notifications</Link>
               </Button>
             </Dropdown.Item>
+
+            {currentUser?.role === "job_seeker" && <Dropdown.Item>
+              <Button>
+                <Link to={"/jobs-applied"}>Jobs applied</Link>
+              </Button>
+            </Dropdown.Item>}
           </Dropdown.Menu>
         </Dropdown>
         <div className="flex items-center cursor-pointer">
@@ -55,18 +60,7 @@ const NavbarComponent = () => {
           horizontal
           className="p-1 font-semibold text-black text-md"
           size="lg"
-        >
-          <Menu.Item className="px-2 ">
-            <Button color="ghost" className="">
-              <Link to={"/find-job"} className="text-gray-500">Find a job</Link>
-            </Button>
-          </Menu.Item>
-          <Menu.Item>
-            <Button color="ghost">
-              <Link to={"/recruiter"} className="text-gray-500">Recruiter</Link>
-            </Button>
-          </Menu.Item>
-        </Menu>
+        ></Menu>
       </Navbar.Center>
 
       {!currentUser ? (
@@ -74,18 +68,63 @@ const NavbarComponent = () => {
           <Button size="md" variant="outline" className="mr-1" color="ghost">
             <Link to={"/signup"}>SignUp</Link>
           </Button>
-          <Button variant="outline" color={"accent"} size="md">
+          <Button
+            size="md"
+            className="text-pink-500 bg-pink-100 border-pink-600 hover:bg-pink-600 hover:border-pink-600 hover:text-white"
+          >
             <Link to={"/login"}>Login</Link>
           </Button>
         </Navbar.End>
-      ): (
-        <Link to={"/profile"} className="w-10 h-10 ml-auto overflow-hidden rounded-full">
-          <img src="/profile-placeholder.png" alt="" />
-        </Link>
+      ) : (
+        <div className="gap-4 ml-auto">
+          {currentUser && currentUser.role === "job_seeker" && <Link
+            to={"/jobs-applied"}
+            className="hidden p-2 bg-gray-200 rounded-full sm:inline-block"
+            title="JobsApplied"
+          >
+            <LayoutGrid size={18} />
+          </Link>}
+
+          <Link
+            to={"/notifications"}
+            className="hidden p-2 bg-gray-200 rounded-full sm:inline-block"
+            title="Notifications"
+          >
+            <Bell size={18} />
+          </Link>
+          {currentUser && currentUser.role === "recruiter" && (
+            <Link
+              to={"/post-job"}
+              className="hidden p-2 bg-gray-200 rounded-full sm:inline-block"
+              title="Post a job"
+            >
+              <Plus size={20} />
+            </Link>
+          )}
+
+{currentUser && currentUser.role === "recruiter" && (
+            <Link
+              to={"/post/applications"}
+              className="hidden p-2 bg-gray-200 rounded-full sm:inline-block"
+              title="Post a job"
+            >
+              JobPosted
+            </Link>
+          )}
+          <Link
+            to={"/profile"}
+            className="flex items-center justify-center w-10 h-10 overflow-hidden rounded-full"
+          >
+            <img
+              src={currentUser.profileImage || "/profile-placeholder.png"}
+              alt="Profile_img"
+              className="object-cover w-full h-full"
+            />
+          </Link>
+        </div>
       )}
 
       {/* <img src="/profile-placeholder.png" alt=""  className="w-8 h-8 overflow-hidden rounded-full"/> */}
-      
     </Navbar>
   );
 };

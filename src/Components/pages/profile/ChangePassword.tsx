@@ -42,11 +42,11 @@ onSuccess: ()=>{
     <div className='flex flex-col items-center justify-center w-full h-full'>
       <h2 className='text-3xl text-gray-500 transition lg:tex-3xl'>Change password</h2>
       <form className='flex flex-col' onSubmit={handleSubmit}>
-        <input type="password" placeholder='Current password' className='bg-transparent mt-8 outline-none mb-8 min-w-[350px] w-full border-gray-400 border-2 rounded-md focus:border-violet-500 py-2 px-2 ' name='old-password' value={currentPassword} onChange={(e)=> setCurrentPassword(e.target.value)}  />
+        <input type="password" placeholder='Current password' className='bg-transparent mt-8 outline-none mb-8 min-w-[350px] w-full border-gray-400 border-2 rounded-md focus:border-pink-500 py-2 px-2 ' name='old-password' value={currentPassword} onChange={(e)=> setCurrentPassword(e.target.value)}  />
 
-        <input type="password" placeholder='New password' className='bg-transparent outline-none  min-w-[350px] w-full border-gray-400 border-2 rounded-md focus:border-violet-500 py-2 px-2 ' name='old-password' value={newPassword} onChange={(e)=> setNewPassword(e.target.value)}  />
+        <input type="password" placeholder='New password' className='bg-transparent outline-none  min-w-[350px] w-full border-gray-400 border-2 rounded-md focus:border-pink-500 py-2 px-2 ' name='old-password' value={newPassword} onChange={(e)=> setNewPassword(e.target.value)}  />
         
-        <input type="password" placeholder='Confirm password' className='bg-transparent outline-none  min-w-[350px] w-full border-gray-400 border-2 mt-4 rounded-md focus:border-violet-500 py-2 px-2 ' name='old-password' value={confirmPassword} onChange={(e)=> setConfirmPassword(e.target.value)}  />
+        <input type="password" placeholder='Confirm password' className='bg-transparent outline-none  min-w-[350px] w-full border-gray-400 border-2 mt-4 rounded-md focus:border-pink-500 py-2 px-2 ' name='old-password' value={confirmPassword} onChange={(e)=> setConfirmPassword(e.target.value)}  />
 
         {isError &&<p className='font-semibold text-red-500'>{axios.isAxiosError(error) ? error.response?.data.error:"Error"}</p>}
         {confirmPassword && confirmPassword !== newPassword &&<p className='font-semibold text-red-500'>Password doesn't match</p>}
@@ -54,7 +54,7 @@ onSuccess: ()=>{
         <div className="w-60 ">
             <button
               type="submit"
-              className="w-[350px] py-2 mt-2 font-semibold text-center text-white rounded-lg bg-violet-500"
+              className="w-[350px] py-2 mt-2 font-semibold text-center text-white rounded-lg bg-pink-500"
             >
               {isPending?"Changing...":"ChangePassword"}
             </button>
